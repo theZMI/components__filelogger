@@ -16,10 +16,8 @@ class FileLogger
     private $fPath;
     private $fHandle;
 
-    const LOG_SEPARATOR = PHP_EOL;
-
-    const MAXSIZE_LOGFILE = 10485760; // 10mb
-
+    const LOG_SEPARATOR      = PHP_EOL;
+    const MAXSIZE_LOGFILE    = 10485760; // 10mb
     const FLG_CREATE_ARCHIVE = true;
 
     private function __construct($fPath, $flgAppendData = true)
@@ -28,7 +26,7 @@ class FileLogger
         $dirs        = dirname($fPath);
 
         if ($dirs) {
-            FileSys::MakeDir($dirs);
+            FileSys::makeDir($dirs);
         }
 
         if (!$flgAppendData) {
@@ -63,7 +61,7 @@ class FileLogger
      *
      * @param $fPath - путь к файлу куда необходимо записать лог
      */
-    public static function Create($fPath)
+    public static function create($fPath)
     {
         if (isset(self::$loggers[$fPath])) {
             return self::$loggers[$fPath];
@@ -72,30 +70,30 @@ class FileLogger
         }
     }
 
-    private function Add($str, $msgType)
+    private function add($str, $msgType)
     {
         $this->aLog[] = "--- {$msgType}: " . date('Y-m-d H:i:s') . " ---" . PHP_EOL .
             $str . PHP_EOL .
             "------------------------------------" . PHP_EOL;
-        $this->Flush();
+        $this->flush();
     }
 
     public function Error($str)
     {
-        $this->Add($str, 'Error');
+        $this->add($str, 'Error');
     }
 
     public function Ok($str)
     {
-        $this->Add($str, 'Ok');
+        $this->add($str, 'Ok');
     }
 
     public function Message($str)
     {
-        $this->Add($str, 'Message');
+        $this->add($str, 'Message');
     }
 
-    public function Flush()
+    public function flush()
     {
         $sLog = '';
         if (sizeof($this->aLog)) {
@@ -113,7 +111,7 @@ class FileLogger
 
     public function __destruct()
     {
-        $this->Flush();
+        $this->flush();
         fclose($this->fHandle);
     }
 }
