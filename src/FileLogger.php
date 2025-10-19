@@ -78,17 +78,12 @@ class FileLogger
         $this->flush();
     }
 
-    public function Error($str)
+    public function error($str)
     {
         $this->add($str, 'Error');
     }
 
-    public function Ok($str)
-    {
-        $this->add($str, 'Ok');
-    }
-
-    public function Message($str)
+    public function message($str)
     {
         $this->add($str, 'Message');
     }
